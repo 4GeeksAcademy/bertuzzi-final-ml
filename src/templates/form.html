@@ -7,10 +7,22 @@
 <body>
     <h2>Enter Recipe Features</h2>
     <form method="POST" action="/predict">
-        {% for field in ['calories', 'protein', 'carbohydrates', 'fat', 'high_protein', 'low_carb', 'is_balanced'] %}
+
+        <!-- Numeric Inputs -->
+        {% for field in ['calories', 'protein', 'carbohydrates', 'fat'] %}
             <label for="{{ field }}">{{ field.replace('_', ' ').title() }}:</label><br>
             <input type="number" name="{{ field }}" step="0.01" required><br><br>
         {% endfor %}
+
+        <!-- Binary Inputs -->
+        {% for field in ['high_protein', 'low_carb', 'is_balanced'] %}
+            <label for="{{ field }}">{{ field.replace('_', ' ').title() }} (0 = No, 1 = Yes):</label><br>
+            <select name="{{ field }}" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+        {% endfor %}
+
         <input type="submit" value="Predict">
     </form>
 

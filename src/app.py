@@ -5,10 +5,10 @@ import numpy as np
 app = Flask(__name__)
 
 # Load trained model and scaler
-with open("/workspaces/bertuzzi-machine-learning-final/src/rf_model.pkl", "rb") as model_file:
+with open("/workspaces/bertuzzi-final-ml/src/rf_model.pkl", "rb") as model_file:
     model = pickle.load(model_file)
 
-with open("/workspaces/bertuzzi-machine-learning-final/src/scaler.pkl", "rb") as scaler_file:
+with open("/workspaces/bertuzzi-final-ml/src/scaler.pkl", "rb") as scaler_file:
     scaler = pickle.load(scaler_file)
 
 @app.route("/")
@@ -24,13 +24,14 @@ def predict():
             'high_protein', 'low_carb', 'is_balanced'
         ]]
 
-        # Scale the input
-        input_scaled = scaler.transform([[
-            'calories', 'protein', 'carbohydrates', 'fat'
-        ]])
+        # Scale only the first 4 features
+        input_scaled = scaler.transform([features[:4]])
+
+        # Combine scaled numeric and unscaled binary features
+        final_input = np.concatenate([input_scaled[0], features[4:]])
 
         # Predict using the model
-        prediction = model.predict(input_scaled)[0]
+        prediction = model.predict([final_input])[0]
 
         return render_template("form.html", prediction_text=f"Predicted Health Score: {int(prediction)}")
 
