@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Health Score Predictor</title>
+</head>
+<body>
+    <h2>Enter Recipe Features</h2>
+    <form method="POST" action="/predict">
+        {% for field in ['calories', 'protein', 'carbohydrates', 'fat', 'high_protein', 'low_carb', 'is_balanced'] %}
+            <label for="{{ field }}">{{ field.replace('_', ' ').title() }}:</label><br>
+            <input type="number" name="{{ field }}" step="0.01" required><br><br>
+        {% endfor %}
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if prediction_text %}
+        <h3>{{ prediction_text }}</h3>
+    {% endif %}
+</body>
+</html>
