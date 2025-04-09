@@ -3,31 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <title>Health Score Predictor</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: #faf7f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #000;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #000;
+            margin: 10px 0 5px;
+            text-align: left;
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #faf7f0;
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            background-color: #fcc41d;
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #e6b518;
+        }
+
+        h3 {
+            margin-top: 30px;
+            color: #000;
+        }
+    </style>
 </head>
 <body>
-    <h2>Enter Recipe Features</h2>
-    <form method="POST" action="/predict">
+    <div class="container">
+        <h2>Enter Recipe Features</h2>
+        <form method="POST" action="/predict">
 
-        <!-- Numeric Inputs -->
-        {% for field in ['calories', 'protein', 'carbohydrates', 'fat'] %}
-            <label for="{{ field }}">{{ field.replace('_', ' ').title() }}:</label><br>
-            <input type="number" name="{{ field }}" step="0.01" required><br><br>
-        {% endfor %}
+            <!-- Numeric Inputs -->
+            {% for field in ['calories', 'protein', 'carbohydrates', 'fat'] %}
+                <label for="{{ field }}">{{ field.replace('_', ' ').title() }}:</label>
+                <input type="number" name="{{ field }}" step="0.01" required>
+            {% endfor %}
 
-        <!-- Binary Inputs -->
-        {% for field in ['high_protein', 'low_carb', 'is_balanced'] %}
-            <label for="{{ field }}">{{ field.replace('_', ' ').title() }} (0 = No, 1 = Yes):</label><br>
-            <select name="{{ field }}" required>
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select><br><br>
-        {% endfor %}
+            <!-- Binary Inputs -->
+            {% for field in ['high_protein', 'low_carb', 'is_balanced'] %}
+                <label for="{{ field }}">{{ field.replace('_', ' ').title() }} (0 = No, 1 = Yes):</label>
+                <select name="{{ field }}" required>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            {% endfor %}
 
-        <input type="submit" value="Predict">
-    </form>
+            <input type="submit" value="Predict">
+        </form>
 
-    {% if prediction_text %}
-        <h3>{{ prediction_text }}</h3>
-    {% endif %}
+        {% if prediction_text %}
+            <h3>{{ prediction_text }}</h3>
+        {% endif %}
+    </div>
 </body>
 </html>
