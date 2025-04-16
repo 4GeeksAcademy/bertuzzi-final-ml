@@ -77,7 +77,7 @@
         <form method="POST" action="/predict">
 
             <!-- Numeric Inputs -->
-            {% for field in ['calories', 'protein (grams)', 'carbohydrates (grams)', 'fat (grams)'] %}
+            {% for field in ['calories', 'protein', 'carbohydrates', 'fat'] %}
                 <label for="{{ field }}">{{ field.replace('_', ' ').title() }}:</label>
                 <input type="number" name="{{ field }}" step="0.01" required>
             {% endfor %}
